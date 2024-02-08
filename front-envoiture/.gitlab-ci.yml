@@ -1,0 +1,6 @@
+build project:
+  image: node:9.6.3
+  script: 
+    - npm install
+    - npm run test 
+    - npm run build
