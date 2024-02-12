@@ -59,7 +59,7 @@ export default function NewRideForm() {
   const dispatch = useDispatch();
   const router = useRouter();
   const newRideStep = ['type', 'adresse!§', 'dateTime', 'passengerNb', 'price'];
-  const completedStep = activeStep === newRideStep.length;
+  const completedStep = activeStep === newRideStep.length - 1;
   const { user } = useAuthContext();
   const { searchCityList } = useSelector((state) => state.search);
   const { profil } = useSelector((state) => state.account);
@@ -90,6 +90,8 @@ export default function NewRideForm() {
     end: Yup.string().required('Adresse de arrivée est obligatoire'),
     price: Yup.number().required('Adresse de arrivée est obligatoire'),
     startAt: Yup.date().required('La date de départ est obligatoire'),
+    startDate: Yup.string().required('La date de départ est obligatoire'),
+    startTime: Yup.string().required('La date de départ est obligatoire'),
     type: Yup.string().required('Le type de trajet est obligatoire'),
     placesNumber: Yup.number().required('le nombre de passager est obligatoire'),
   });
