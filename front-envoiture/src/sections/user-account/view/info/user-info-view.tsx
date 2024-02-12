@@ -79,7 +79,7 @@ export default function UserInfoView() {
       }}
     >
       <Stack alignItems="center">
-        <Typography variant="body1"> Profil completé a 30%</Typography>
+        <Typography variant="body1"> Profil completé a 40%</Typography>
       </Stack>
       <LinearProgress
         value={40}

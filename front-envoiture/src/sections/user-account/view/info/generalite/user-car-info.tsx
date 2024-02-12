@@ -82,9 +82,15 @@ export default function RenderCarInfo() {
         if (profil.vehicle?.id) {
           dispatch(updateUserVehicleAction(profil.vehicle.id, updateData));
           enqueueSnackbar('les informations du véhicule ont mis a jour !', { variant: 'success' });
+          console.log("mise ajour");
+          console.log(updateData)
         } else {
           dispatch(addUserVehicleAction(updateData));
           enqueueSnackbar('les informations du véhicule ont ajouté !', { variant: 'success' });
+          console.log(" creeer ");
+          console.log(updateData)
+          console.log("la nouvelle image")
+          console.log(profil.vehicle);
         }
         setOpenDialogue(false)
       } catch (error) {
@@ -96,7 +102,8 @@ export default function RenderCarInfo() {
   );
 
   const handleDropCarImg = useCallback(
-    (acceptedFiles: File[]) => {
+    (  
+      acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
@@ -128,6 +135,7 @@ export default function RenderCarInfo() {
           <Image
             alt="carImg"
             src={profil.vehicle?.imageName ?? '/assets/images/22.png'}
+        
             sx={{
               borderRadius: 2,
               my: { xs: 5, md: 10 },

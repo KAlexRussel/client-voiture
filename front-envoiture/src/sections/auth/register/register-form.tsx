@@ -40,7 +40,7 @@ export default function RegisterForm() {
   const { t } = useLocales();
   const { enqueueSnackbar } = useSnackbar();
   const registerStep = ['email', 'name', 'sex', 'birthdate', 'phone', 'password'];
-  const completedStep = activeStep === registerStep.length;
+  const completedStep = activeStep === registerStep.length - 1;
 
   const onNextStep = useCallback((s: number) => {
     let Step = s;
