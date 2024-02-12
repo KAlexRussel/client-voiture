@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -97,6 +98,22 @@ export default function UserPublishRideSection({ publishRides }: Props) {
             my: { xs: 5, md: 10 },
           }}
         />
+      
+        <Link to="src/sections/search/view/trajet-details-view">
+          <Button
+            sx={{
+              backgroundColor: '#619FCB',
+              borderRadius: 3,
+              pl: 2,
+              pr: 1.5,
+              color: 'white',
+            }}
+            variant="outlined"
+            onClick={() => console.log('toto')}
+          >
+            PUBLIER UN TRAJET
+          </Button>
+        </Link>
         <Button
           sx={{
             backgroundColor: '#619FCB',

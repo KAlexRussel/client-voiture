@@ -8,6 +8,7 @@ import Iconify from 'src/components/iconify';
 import { getCities } from 'src/redux/actions/search-action';
 import { useDispatch, useSelector } from 'src/redux/store';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import { Clock } from '@mui/x-date-pickers/TimeClock/Clock';
 import { useAuthContext } from 'src/auth/hooks';
 import FormProvider, { RHFSelect, RHFTextField } from 'src/components/hook-form';
 import {
@@ -35,6 +36,8 @@ type FormValuesProps = {
   start: string;
   end: string;
   price: number;
+  startDate: string;
+  startTime: string;
   startAt: Date;
   type: string;
   placesNumber: number;
@@ -91,11 +94,16 @@ export default function NewRideForm() {
     placesNumber: Yup.number().required('le nombre de passager est obligatoire'),
   });
 
+  const actualDate = new Date();
+  const startdate = actualDate.toISOString().split('T')[0];
+  const starttime = actualDate.toISOString().split('T')[1].slice(0, 5);
+
   const defaultValues = {
     start: '',
     end: '',
     price: calculatedPrice.recommanded,
-    startAt: new Date(),
+    startDate: startdate, // Extracting date part
+    startTime: starttime, // Extracting time part, keeping HH:MM format
     type: 'conducteur',
     placesNumber: 1,
   };
@@ -325,7 +333,7 @@ export default function NewRideForm() {
                           borderRadius: 3,
                         },
                       }}
-                      placeholder="Adresse d'arrivée"
+                      placeholder="Adresse départ"
                       InputProps={{
                         ...params.InputProps,
                         startAdornment: (
@@ -418,19 +426,23 @@ export default function NewRideForm() {
           {activeStep === 2 && (
             <>
               <Stack alignItems="center" justifyContent="center">
-                <CardHeader title="Date et heure de départ" />
+                <CardHeader title="Date de départ/Heure" />
               </Stack>
               <Stack mt={5} spacing={2.5}>
+                {/* Departure Date */}
                 <Controller
-                  name="startAt"
+                  name="startDate"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
+                    <TextField
                       {...field}
-                      viewRenderers={{
-                        hours: renderTimeViewClock,
-                        minutes: renderTimeViewClock,
-                        seconds: renderTimeViewClock,
+                      type="date"
+                      fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                      label="Date"
+                      InputLabelProps={{
+                        shrink: true,
                       }}
                       sx={{
                         '& .MuiOutlinedInput-root': {
@@ -443,17 +455,38 @@ export default function NewRideForm() {
                         },
                         '& .MuiSvgIcon-root': { color: '#619FCB' },
                       }}
-                      shouldDisableDate={isDateDisabled}
-                      slots={{
-                        openPickerIcon: CalendarTodayOutlinedIcon,
+                    />
+                  )}
+                />
+
+                {/* Departure Time */}
+                <Controller
+                  name="startTime"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      {...field}
+                      type="time"
+                      fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                      label="Heure et Minute "
+                      InputLabelProps={{
+                        shrink: true,
                       }}
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          error: !!error,
-                          helperText: error?.message,
-                          placeholder: 'Start date',
+                      inputProps={{
+                        step: 300, // 5 minutes
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { borderColor: 'transparent' },
+                          '&:hover fieldset': { borderColor: 'transparent' },
+                          '&.Mui-focused fieldset': { borderColor: 'transparent' },
+                          background: 'rgb(232, 241, 250)',
+                          flexDirection: 'row-reverse',
+                          borderRadius: 3,
                         },
+                        '& .MuiSvgIcon-root': { color: '#619FCB' },
                       }}
                     />
                   )}
